@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Feedback | Factory 2 Hair &amp; Home</title>
+<meta name="description" content="Share your feedback with Factory 2 Hair &amp; Home, Invercargill.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2312100e'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23c2a878' text-anchor='middle'>F2</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <a href="index.html" class="brand"><b>Factory 2</b><small>Hair &amp; Home</small></a>
+  <div class="nav-links">
+    <a class="navlink" href="index.html#services">Services</a>
+    <a class="navlink" href="index.html#about">About</a>
+    <a class="navlink" href="index.html#reviews">Reviews</a>
+    <a class="nav-cta" href="tel:+6432144247">03 214 4247</a>
+  </div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">We're listening</span>
+    <h1>Tell us what happened.</h1>
+    <p>This goes straight to the salon — not online. We read every message and we'd genuinely like the chance to put things right.</p>
+  </div>
+</section>
+
+<section class="section section--light">
+  <div class="wrap">
+    <div class="form" style="max-width:620px;margin:0 auto" id="formWrap">
+      <form action="https://formsubmit.co/hello@factory2hairandhome.co.nz" method="POST" id="fbForm">
+        <h3>Private feedback</h3>
+        <p class="sm">Your rating: <b id="ratingLabel">—</b></p>
+        <input type="hidden" name="_subject" value="Private feedback — Factory 2 Hair & Home">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="Rating" id="ratingField" value="">
+        <div class="row2">
+          <div class="field"><label>Name</label><input type="text" name="Name" required placeholder="Your name"></div>
+          <div class="field"><label>Email</label><input type="email" name="Email" required placeholder="you@email.co.nz"></div>
+        </div>
+        <div class="field">
+          <label>Your rating</label>
+          <select name="Rating (selected)" id="ratingSelect">
+            <option value="1">★ — 1</option>
+            <option value="2">★★ — 2</option>
+            <option value="3">★★★ — 3</option>
+          </select>
+        </div>
+        <div class="field"><label>What could we have done better?</label><textarea name="Feedback" required placeholder="Tell us what happened and how we can make it right"></textarea></div>
+        <button type="submit" class="btn btn--accent">Send feedback</button>
+      </form>
+      <div class="success" id="success">
+        <div class="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h3 style="font-size:1.6rem;margin-bottom:10px">Thank you</h3>
+        <p style="color:var(--muted);max-width:40ch;margin:0 auto 22px">We've got your feedback and someone from the salon will be in touch. We appreciate you giving us the chance to make it right.</p>
+        <a href="index.html" class="btn btn--outline">Back to home</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-bot" style="border-top:0;padding-top:0">
+      <span>© <span data-year>2026</span> Factory 2 Hair &amp; Home · Invercargill</span>
+      <span><a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// pre-fill rating from URL
+var params = new URLSearchParams(window.location.search);
+var r = params.get('rating');
+if (r && ['1','2','3','4','5'].indexOf(r) !== -1) {
+  document.getElementById('ratingLabel').textContent = '★'.repeat(+r) + ' (' + r + '/5)';
+  document.getElementById('ratingField').value = r;
+  var sel = document.getElementById('ratingSelect');
+  if (sel && +r <= 3) sel.value = r;
+}
+// success state (FormSubmit AJAX)
+var form = document.getElementById('fbForm');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  var data = new FormData(form);
+  fetch(form.action, { method:'POST', body:data, headers:{ 'Accept':'application/json' } })
+    .then(function(){ show(); })
+    .catch(function(){ show(); });
+});
+function show(){
+  document.getElementById('fbForm').style.display = 'none';
+  document.getElementById('success').classList.add('show');
+}
+document.querySelectorAll('[data-year]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
+</script>
+</body>
+</html>

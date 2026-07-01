@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leave a Review | Factory 2 Hair &amp; Home</title>
+<meta name="description" content="Rate your visit to Factory 2 Hair &amp; Home in Invercargill.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2312100e'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23c2a878' text-anchor='middle'>F2</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <a href="index.html" class="brand"><b>Factory 2</b><small>Hair &amp; Home</small></a>
+  <div class="nav-links">
+    <a class="navlink" href="index.html#services">Services</a>
+    <a class="navlink" href="index.html#about">About</a>
+    <a class="navlink" href="index.html#reviews">Reviews</a>
+    <a class="nav-cta" href="tel:+6432144247">03 214 4247</a>
+  </div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Your visit</span>
+    <h1>How did we do?</h1>
+    <p>Your feedback helps us stay sharp — and helps other Southland locals find a chair they'll love. Tap a star to start.</p>
+  </div>
+</section>
+
+<section class="section section--light">
+  <div class="wrap">
+    <div class="picker">
+      <h2 style="font-size:1.8rem;margin-bottom:6px">Rate your experience</h2>
+      <div class="stars-pick" id="stars">
+        <button class="star-btn" data-v="1" aria-label="1 star">★</button>
+        <button class="star-btn" data-v="2" aria-label="2 stars">★</button>
+        <button class="star-btn" data-v="3" aria-label="3 stars">★</button>
+        <button class="star-btn" data-v="4" aria-label="4 stars">★</button>
+        <button class="star-btn" data-v="5" aria-label="5 stars">★</button>
+      </div>
+      <p class="hint" id="hint">Tap a star above</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-bot" style="border-top:0;padding-top:0">
+      <span>© <span data-year>2026</span> Factory 2 Hair &amp; Home · Invercargill</span>
+      <span><a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Google review link — replace PLACEHOLDER with the real g.page link on the live site
+var GOOGLE_REVIEW_URL = "https://g.page/r/PLACEHOLDER/review";
+var stars = document.querySelectorAll('.star-btn');
+var hint = document.getElementById('hint');
+var msgs = {
+  1:"Sorry to hear that — tell us what went wrong",
+  2:"We'd like to make this right — share the details",
+  3:"Thanks — let us know how we can do better",
+  4:"Great! Taking you to Google…",
+  5:"Wonderful! Taking you to Google…"
+};
+stars.forEach(function(s){
+  s.addEventListener('mouseenter', function(){ paint(+s.dataset.v); });
+  s.addEventListener('mouseleave', function(){ paint(0); });
+  s.addEventListener('click', function(){
+    var v = +s.dataset.v;
+    paint(v);
+    hint.textContent = msgs[v];
+    setTimeout(function(){
+      if (v >= 4) { window.location.href = GOOGLE_REVIEW_URL; }
+      else { window.location.href = "private.html?rating=" + v; }
+    }, 650);
+  });
+});
+function paint(v){
+  stars.forEach(function(s){ s.classList.toggle('lit', +s.dataset.v <= v); });
+}
+document.querySelectorAll('[data-year]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
+</script>
+</body>
+</html>
