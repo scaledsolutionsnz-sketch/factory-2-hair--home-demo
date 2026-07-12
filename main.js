@@ -1,10 +1,30 @@
-// Factory 2 Hair & Home — shared interactions
+// Factory 2 Hair & Home — interactions
 
-// intro overlay
-window.addEventListener('load', () => {
-  const intro = document.getElementById('intro');
-  if (intro) setTimeout(() => intro.classList.add('done'), 1400);
-});
+// Welcome chooser overlay — first visit per session only
+(function () {
+  const welcome = document.getElementById('welcome');
+  if (!welcome) return;
+  if (sessionStorage.getItem('f2_welcomed')) { welcome.remove(); return; }
+  document.documentElement.classList.add('welcome-open');
+
+  const close = (target) => {
+    sessionStorage.setItem('f2_welcomed', '1');
+    welcome.classList.add('done');
+    document.documentElement.classList.remove('welcome-open');
+    setTimeout(() => welcome.remove(), 700);
+    if (target && target !== 'dismiss') {
+      const el = document.getElementById(target);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 200);
+    }
+  };
+
+  welcome.querySelectorAll('[data-go]').forEach((b) =>
+    b.addEventListener('click', () => close(b.getAttribute('data-go'))));
+  welcome.addEventListener('click', (e) => { if (e.target === welcome) close('dismiss'); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('welcome')) close('dismiss');
+  });
+})();
 
 // nav scrolled state
 const nav = document.querySelector('.nav');
@@ -19,31 +39,14 @@ const toggle = document.querySelector('.nav-toggle');
 const links = document.querySelector('.nav-links');
 if (toggle && links) {
   toggle.addEventListener('click', () => links.classList.toggle('open'));
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+  links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => links.classList.remove('open')));
 }
 
 // reveal on scroll
 const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: 0.14 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-// hero rolling slides
-const slides = Array.from(document.querySelectorAll('.hero-slide'));
-const dots = Array.from(document.querySelectorAll('.hero-dots button'));
-if (slides.length > 1) {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let i = 0;
-  const go = (n) => {
-    slides[i].classList.remove('active');
-    if (dots[i]) dots[i].classList.remove('active');
-    i = (n + slides.length) % slides.length;
-    slides[i].classList.add('active');
-    if (dots[i]) dots[i].classList.add('active');
-  };
-  dots.forEach((d, n) => d.addEventListener('click', () => go(n)));
-  if (!reduce) setInterval(() => go(i + 1), 6000);
-}
+  entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
 // year
-document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+document.querySelectorAll('[data-year]').forEach((el) => el.textContent = new Date().getFullYear());
