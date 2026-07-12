@@ -353,6 +353,8 @@ html.welcome-open{overflow:hidden}
 .side--hair .section-head p{color:rgba(239,230,218,.75)}
 .side--hair .eyebrow{color:var(--accent)}
 .side-cta{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 46px}
+.side--hair .btn--outline{color:#f4efe7;border-color:rgba(255,255,255,.4)}
+.side--hair .btn--outline:hover{border-color:var(--accent);color:var(--accent);background:transparent}
 .side--hair .svc-grid{grid-template-columns:repeat(4,1fr)}
 .side--hair .svc-card{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10);padding:30px 26px}
 .side--hair .svc-card:hover{border-color:var(--accent);box-shadow:none;background:rgba(194,168,120,.10)}
